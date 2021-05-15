@@ -1,3 +1,4 @@
+import { UserProvider } from '@auth0/nextjs-auth0';
 import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import Head from 'next/head';
@@ -6,6 +7,8 @@ import theme from '../theme';
 
 
 function TreeditorApp({ Component, pageProps }) {
+  const { user } = pageProps;
+
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -23,7 +26,9 @@ function TreeditorApp({ Component, pageProps }) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <UserProvider user={user}>
+          <Component {...pageProps} />
+        </UserProvider>
       </ThemeProvider>
     </>
   );
