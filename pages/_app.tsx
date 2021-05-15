@@ -3,8 +3,11 @@ import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import theme from '../theme';
+import theme from '@treeditor/theme';
 
+import 'leaflet/dist/leaflet.css';
+import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
+import '@treeditor/components/editor-map.scss';
 
 function TreeditorApp({ Component, pageProps }) {
   const { user } = pageProps;
