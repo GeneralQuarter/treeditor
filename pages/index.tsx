@@ -1,5 +1,6 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { EditorMapProps } from '@treeditor/components/editor-map.props';
+import PlantSearch from '@treeditor/components/plant-search';
 import { getPlantsWithPosition } from '@treeditor/lib/contentful/get-plants-with-position';
 import { useUpdatePlantMutation } from '@treeditor/lib/plants/mutations/update-plant-position.mutation';
 import { plantsWithPositionQueryKey, usePlantsWithPositionQuery } from '@treeditor/lib/plants/queries/plants-with-position.query';
@@ -41,6 +42,10 @@ function Home() {
     }
   }
 
+  const plantSearchPlantClicked = (plant: Plant) => {
+    console.log(plant);
+  }
+
   if (isLoading) {
     return <p>Loading ...</p>
   }
@@ -51,8 +56,11 @@ function Home() {
 
   return (
     <>
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
         <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} />
+        <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 500 }}>
+          <PlantSearch onPlantClicked={plantSearchPlantClicked} />
+        </div>
       </div>
     </>
   )

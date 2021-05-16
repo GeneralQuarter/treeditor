@@ -9,7 +9,7 @@ import { Hydrate } from 'react-query/hydration'
 
 import 'leaflet/dist/leaflet.css';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
-import '@treeditor/components/editor-map.scss';
+import '@treeditor/global.scss';
 
 
 function TreeditorApp({ Component, pageProps }) {

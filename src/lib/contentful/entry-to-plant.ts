@@ -11,9 +11,9 @@ export function entryToPlant(entry: PlantEntry): Plant {
     commonName: entry.fields.commonInfo.fields.commonName,
     height: entry.fields.commonInfo.fields.height,
     code: entry.fields.code,
-    position: [
+    position: entry.fields.position ? [
       entry.fields.position.lat,
       entry.fields.position.lon
-    ]
+    ] : undefined
   }
 }
