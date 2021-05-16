@@ -14,7 +14,7 @@ const fullRenderer = new SVG({ padding: 1 });
 
 const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dashArray: '6', weight: 2, fillColor: 'white' };
 
-function EditorMap({plants}: EditorMapProps) {
+function EditorMap({plants, onPlantPositionChange}: EditorMapProps) {
   const [selectedPlant, setSelectedPlant] = useState<string | null>();
 
   const whenCreated = (map: Map) => {
@@ -24,16 +24,14 @@ function EditorMap({plants}: EditorMapProps) {
   }
 
   const plantClicked = (plant: Plant) => {
-    console.log('plant clicked', plant);
     setSelectedPlant(plant.code === selectedPlant ? null : plant.code);
   }
 
   const plantPositionChanged = (plant: Plant, newPosition: LatLng) => {
-    console.log('plant position changed', plant, newPosition);
+    onPlantPositionChange(plant, [newPosition.lat, newPosition.lng]);
   }
 
   const plantLockChanged = (plant: Plant, locked: boolean) => {
-    console.log(`plant ${locked ? 'locked' : 'unlocked'}`);
     setSelectedPlant(plant.code);
   }
 

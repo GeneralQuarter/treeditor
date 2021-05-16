@@ -1,5 +1,5 @@
 import { Plant } from "@treeditor/models/plant";
-import { PlantEntry } from "../contentful/plant-entry";
+import { PlantEntry } from "./plant-entry";
 
 export function entryToPlant(entry: PlantEntry): Plant {
   return {

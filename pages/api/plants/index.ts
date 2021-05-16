@@ -1,5 +1,5 @@
 import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import getPlantsWithPosition from "@treeditor/lib/plants/get-plants-with-position";
+import { getPlantsWithPosition } from "@treeditor/lib/contentful/get-plants-with-position";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function getPlants(req: NextApiRequest, res: NextApiResponse) {
