@@ -8,8 +8,8 @@ import { PaginatedResult } from '@treeditor/models/paginated-result';
 import { Plant } from '@treeditor/models/plant';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
-import { QueryClient } from 'react-query';
+import { useCallback, useMemo, useState } from 'react';
+import { QueryClient, useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration'
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -28,6 +28,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 function Home() {
   const { isLoading, error, data } = usePlantsWithPositionQuery();
   const updatePlantPositionMutation = useUpdatePlantMutation();
+  const [map, setMap] = useState<any | null>();
 
   const EditorMap = useMemo(() => dynamic<EditorMapProps>(
     () => import('../src/components/editor-map'),
@@ -36,14 +37,25 @@ function Home() {
 
   const plantPositionChanged = async (plant: Plant, newPosition: [number, number]) => {
     try {
-      await updatePlantPositionMutation.mutate({id: plant.id, newPosition})
+      const newPlant = {...plant, position: newPosition};
+      await updatePlantPositionMutation.mutate(newPlant);
     } catch (e) {
       console.log(e);
     }
   }
 
-  const plantSearchPlantClicked = (plant: Plant) => {
-    console.log(plant);
+  const plantSearchPlantClicked = async (plant: Plant) => {
+    if (!map) {
+      return;
+    }
+
+    if (plant.position) {
+      map.flyTo(plant.position, 23);
+    } else {
+      const coords = map.getCenter();
+      const newPlant = {...plant, position: [coords.lat, coords.lng] as [number, number]};
+      updatePlantPositionMutation.mutate(newPlant);
+    }
   }
 
   if (isLoading) {
@@ -57,7 +69,7 @@ function Home() {
   return (
     <>
       <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} />
+        <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} setMap={setMap}/>
         <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 500 }}>
           <PlantSearch onPlantClicked={plantSearchPlantClicked} />
         </div>

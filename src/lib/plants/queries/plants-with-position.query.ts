@@ -7,5 +7,5 @@ const fetchPlantsWithPosition = () => fetch('/api/plants?has-position=true').the
 export const plantsWithPositionQueryKey = 'plants-with-position';
 
 export function usePlantsWithPositionQuery() {
-  return useQuery<PaginatedResult<Plant>>(plantsWithPositionQueryKey, fetchPlantsWithPosition);
+  return useQuery<PaginatedResult<Plant>>(plantsWithPositionQueryKey, fetchPlantsWithPosition, {refetchOnWindowFocus: false});
 }

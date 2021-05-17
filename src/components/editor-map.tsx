@@ -14,13 +14,14 @@ const fullRenderer = new SVG({ padding: 1 });
 
 const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dashArray: '6', weight: 2, fillColor: 'white' };
 
-function EditorMap({plants, onPlantPositionChange}: EditorMapProps) {
+function EditorMap({plants, onPlantPositionChange, setMap}: EditorMapProps) {
   const [selectedPlant, setSelectedPlant] = useState<string | null>();
 
   const whenCreated = (map: Map) => {
     addSmoothWheelZoom(map);
 
     map.pm.enableGlobalDragMode();
+    setMap?.(map);
   }
 
   const plantClicked = (plant: Plant) => {

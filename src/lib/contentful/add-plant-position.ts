@@ -1,20 +1,15 @@
 import client from "./management-client";
 
-export async function updatePlantPosition(id: string, position: [number, number]) {
+export async function addPlantPosition(id: string, position: [number, number]) {
   const entry = await client.entry.get({entryId: id});
 
   const updatedEntry = await client.entry.patch({entryId: id, version: entry.sys.version} as {entryId: string}, [
     {
-      op: entry.fields.position ? 'replace' : 'add',
-      path: entry.fields.position ? '/fields/position/fr' : '/fields/position',
-      value: entry.fields.position ? {
+      op: 'replace',
+      path: '/fields/position/fr',
+      value: {
         lat: position[0],
         lon: position[1]
-      } : {
-        fr: {
-          lat: position[0],
-          lon: position[1]
-        }
       }
     }
   ]);
