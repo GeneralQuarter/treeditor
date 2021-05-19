@@ -19,8 +19,6 @@ function EditorMap({plants, onPlantPositionChange, setMap}: EditorMapProps) {
 
   const whenCreated = (map: Map) => {
     addSmoothWheelZoom(map);
-
-    map.pm.enableGlobalDragMode();
     setMap?.(map);
   }
 

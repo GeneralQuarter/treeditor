@@ -8,8 +8,8 @@ import { PaginatedResult } from '@treeditor/models/paginated-result';
 import { Plant } from '@treeditor/models/plant';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
-import { useCallback, useMemo, useState } from 'react';
-import { QueryClient, useQueryClient } from 'react-query';
+import { useMemo, useState } from 'react';
+import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration'
 
 export const getServerSideProps: GetServerSideProps = async () => {
