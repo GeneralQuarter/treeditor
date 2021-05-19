@@ -1,5 +1,6 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { EditorMapProps } from '@treeditor/components/editor-map.props';
+import PlantPopup from '@treeditor/components/plant-popup';
 import PlantSearch from '@treeditor/components/plant-search';
 import { getPlantsWithPosition } from '@treeditor/lib/contentful/get-plants-with-position';
 import { useUpdatePlantMutation } from '@treeditor/lib/plants/mutations/update-plant-position.mutation';
@@ -16,6 +17,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const paginatedPlants = await getPlantsWithPosition();
   const queryClient = new QueryClient()
 
+  console.log(paginatedPlants);
+
   queryClient.setQueryData<PaginatedResult<Plant>>(plantsWithPositionQueryKey, paginatedPlants);
 
   return {
@@ -29,6 +32,7 @@ function Home() {
   const { isLoading, error, data } = usePlantsWithPositionQuery();
   const updatePlantPositionMutation = useUpdatePlantMutation();
   const [map, setMap] = useState<any | null>();
+  const [selectedPlant, setSelectedPlant] = useState<Plant>();
 
   const EditorMap = useMemo(() => dynamic<EditorMapProps>(
     () => import('../src/components/editor-map'),
@@ -69,9 +73,12 @@ function Home() {
   return (
     <>
       <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} setMap={setMap}/>
+        <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} setMap={setMap} selectedPlant={selectedPlant} setSelectedPlant={setSelectedPlant} />
         <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 500 }}>
           <PlantSearch onPlantClicked={plantSearchPlantClicked} />
+        </div>
+        <div style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 500}}>
+          {selectedPlant && <PlantPopup plant={selectedPlant} />}
         </div>
       </div>
     </>

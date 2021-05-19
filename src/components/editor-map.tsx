@@ -14,16 +14,14 @@ const fullRenderer = new SVG({ padding: 1 });
 
 const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dashArray: '6', weight: 2, fillColor: 'white' };
 
-function EditorMap({plants, onPlantPositionChange, setMap}: EditorMapProps) {
-  const [selectedPlant, setSelectedPlant] = useState<string | null>();
-
+function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSelectedPlant}: EditorMapProps) {
   const whenCreated = (map: Map) => {
     addSmoothWheelZoom(map);
     setMap?.(map);
   }
 
   const plantClicked = (plant: Plant) => {
-    setSelectedPlant(plant.code === selectedPlant ? null : plant.code);
+    setSelectedPlant(selectedPlant && selectedPlant.code === plant.code ? null : plant);
   }
 
   const plantPositionChanged = (plant: Plant, newPosition: LatLng) => {
@@ -31,7 +29,7 @@ function EditorMap({plants, onPlantPositionChange, setMap}: EditorMapProps) {
   }
 
   const plantLockChanged = (plant: Plant, locked: boolean) => {
-    setSelectedPlant(plant.code);
+    setSelectedPlant(plant);
   }
 
   return <MapContainer
@@ -54,7 +52,7 @@ function EditorMap({plants, onPlantPositionChange, setMap}: EditorMapProps) {
         onClick={() => plantClicked(plant)} 
         onPositionChange={newPosition => plantPositionChanged(plant, newPosition)}
         onLockChange={locked => plantLockChanged(plant, locked)}
-        selected={plant.code === selectedPlant}
+        selected={selectedPlant && plant.code === selectedPlant.code}
       />
     ))}
   </MapContainer>

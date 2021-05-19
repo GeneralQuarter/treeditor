@@ -6,7 +6,7 @@ export function entryToPlant(entry: PlantEntry): Plant {
     id: entry.sys.id,
     genus: entry.fields.commonInfo.fields.genus,
     species: entry.fields.commonInfo.fields.species,
-    varietyCultivar: entry.fields.commonInfo.fields.varietyCultivar,
+    varietyCultivar: entry.fields.commonInfo.fields.varietyCultivar ?? '',
     width: entry.fields.commonInfo.fields.width,
     commonName: entry.fields.commonInfo.fields.commonName,
     height: entry.fields.commonInfo.fields.height,
