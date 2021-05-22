@@ -8,4 +8,5 @@ export interface Plant {
   width: number;
   height: number;
   position: [number, number]; // lat, lon
+  sourceLinks: string[];
 }

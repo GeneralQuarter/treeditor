@@ -14,6 +14,7 @@ export function entryToPlant(entry: PlantEntry): Plant {
     position: entry.fields.position ? [
       entry.fields.position.lat,
       entry.fields.position.lon
-    ] : undefined
+    ] : undefined,
+    sourceLinks: entry.fields.commonInfo.fields.sourceLinks,
   }
 }

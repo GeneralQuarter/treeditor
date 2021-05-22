@@ -7,6 +7,7 @@ export interface PlantCommonInfoFields {
   commonName: EntryFields.Symbol;
   width: EntryFields.Number;
   height: EntryFields.Number;
+  sourceLinks: EntryFields.Symbol[];
 }
 
 export interface PlantCommonInfoEntry extends Entry<PlantCommonInfoFields> {}

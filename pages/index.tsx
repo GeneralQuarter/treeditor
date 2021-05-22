@@ -17,8 +17,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const paginatedPlants = await getPlantsWithPosition();
   const queryClient = new QueryClient()
 
-  console.log(paginatedPlants);
-
   queryClient.setQueryData<PaginatedResult<Plant>>(plantsWithPositionQueryKey, paginatedPlants);
 
   return {
@@ -42,7 +40,7 @@ function Home() {
   const plantPositionChanged = async (plant: Plant, newPosition: [number, number]) => {
     try {
       const newPlant = {...plant, position: newPosition};
-      await updatePlantPositionMutation.mutate(newPlant);
+      updatePlantPositionMutation.mutate(newPlant);
     } catch (e) {
       console.log(e);
     }
@@ -78,7 +76,7 @@ function Home() {
           <PlantSearch onPlantClicked={plantSearchPlantClicked} />
         </div>
         <div style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 500}}>
-          {selectedPlant && <PlantPopup plant={selectedPlant} />}
+          {selectedPlant && <PlantPopup plant={selectedPlant} onShowOnMapClicked={plantSearchPlantClicked}/>}
         </div>
       </div>
     </>
