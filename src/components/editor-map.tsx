@@ -28,10 +28,6 @@ function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSel
     onPlantPositionChange(plant, [newPosition.lat, newPosition.lng]);
   }
 
-  const plantLockChanged = (plant: Plant, locked: boolean) => {
-    setSelectedPlant(plant);
-  }
-
   return <MapContainer
     center={initialCenter}
     zoom={17}
@@ -51,7 +47,6 @@ function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSel
         plant={plant} 
         onClick={() => plantClicked(plant)} 
         onPositionChange={newPosition => plantPositionChanged(plant, newPosition)}
-        onLockChange={locked => plantLockChanged(plant, locked)}
         selected={selectedPlant && plant.code === selectedPlant.code}
       />
     ))}

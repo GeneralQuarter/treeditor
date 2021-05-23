@@ -41,6 +41,7 @@ function Home() {
     try {
       const newPlant = {...plant, position: newPosition};
       updatePlantPositionMutation.mutate(newPlant);
+      updateSelectedPlant(newPlant);
     } catch (e) {
       console.log(e);
     }
@@ -57,7 +58,21 @@ function Home() {
       const coords = map.getCenter();
       const newPlant = {...plant, position: [coords.lat, coords.lng] as [number, number]};
       updatePlantPositionMutation.mutate(newPlant);
+      updateSelectedPlant(newPlant);
     }
+  }
+
+  // position of the selected plant was updated, update the selected plant with the new position
+  const updateSelectedPlant = (newPlant: Plant) => {
+    if (!selectedPlant || !newPlant) {
+      return;
+    }
+
+    if (newPlant.code !== selectedPlant.code) {
+      return;
+    }
+
+    setSelectedPlant(newPlant);
   }
 
   if (isLoading) {
