@@ -9,6 +9,7 @@ import Link from "@material-ui/core/Link";
 import { hostNameFromUrl } from "@treeditor/lib/plants/hostname-from-url";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
+import PlantTags from "./plant-tags";
 
 interface PlantPopupProps {
   plant: Plant;
@@ -46,6 +47,7 @@ function PlantPopup({ plant, onShowOnMapClicked }: PlantPopupProps) {
         <Typography variant="h4" color="secondary">{plant.code}</Typography>
         <Typography variant="subtitle1">{plant.commonName}</Typography>
         <Typography>{plant.height}m (H) x {plant.width}m (D)</Typography>
+        <PlantTags tags={plant.tags} />
         {plant.sourceLinks.map(l => (
           <Link key={l} href={l} target="_blank" className={classes.link}>{hostNameFromUrl(l)}</Link>
         ))}

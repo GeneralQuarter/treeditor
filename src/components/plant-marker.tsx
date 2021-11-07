@@ -67,11 +67,13 @@ export default function PlantMarker({ plant, onPositionChange, onLockChange, onC
       return;
     }
 
+    const isAFI = plant.tags.includes('essenceAfi');
+
     if (locked) {
       setTimeout(() => {
         circle.pm.disableLayerDrag();
       }, 0)
-      circle.setStyle({fillColor: 'gray'});
+      circle.setStyle({fillColor: isAFI ? 'green' : 'gray'});
     } else {
       circle.pm.enableLayerDrag();
       circle.setStyle({fillColor: 'blue'});
