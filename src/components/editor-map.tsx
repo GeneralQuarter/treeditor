@@ -13,6 +13,7 @@ const fullRenderer = new SVG({ padding: 1 });
 
 const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dashArray: '6', weight: 2, fillColor: 'white' };
 const twoMetersNorthPathOptions: PathOptions = { color: 'gray', fillOpacity: 0.2, dashArray: '2', weight: 1 };
+const highTensionLinePathOptions: PathOptions = { color: 'blue', opacity: 0.3, weight: 1 };
 
 function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSelectedPlant}: EditorMapProps) {
   const whenCreated = (map: Map) => {
@@ -44,6 +45,9 @@ function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSel
     <Polygon positions={polygons.gartempe} pathOptions={{ color: 'blue', stroke: false, fillOpacity: 0.5 }} renderer={fullRenderer} pmIgnore={true} />
     <Polygon positions={polygons.path} pathOptions={{ color: 'black', stroke: false, fillOpacity: 0.2 }} renderer={fullRenderer} pmIgnore={true} />
     <Polyline positions={polygons.twoMetersNorth} pathOptions={twoMetersNorthPathOptions} renderer={fullRenderer} pmIgnore={true} />
+    <Polyline positions={polygons.highTensionLine1} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
+    <Polyline positions={polygons.highTensionLine2} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
+    <Polyline positions={polygons.highTensionLine3} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
     {plants.map(plant => (
       <PlantMarker key={plant.code} 
         plant={plant} 
