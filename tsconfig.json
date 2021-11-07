@@ -19,12 +19,15 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@treeditor/*": ["src/*"]
+      "@treeditor/*": [
+        "src/*"
+      ]
     },
     "typeRoots": [
       "src/@types",
       "node_modules/@types"
-    ]
+    ],
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { Plant } from '@treeditor/models/plant';
 import { LatLng, LatLngTuple, Map, PathOptions, SVG } from 'leaflet';
-import { MapContainer, Polygon } from 'react-leaflet';
+import { MapContainer, Polygon, Polyline } from 'react-leaflet';
 import { polygons } from '@treeditor/data/polygons';
 import PlantMarker from './plant-marker';
 import { addSmoothWheelZoom } from '@treeditor/lib/leaflet/add-smooth-wheel-zoom';
@@ -13,6 +12,7 @@ const initialCenter: LatLngTuple = [46.37926, 0.88279];
 const fullRenderer = new SVG({ padding: 1 });
 
 const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dashArray: '6', weight: 2, fillColor: 'white' };
+const twoMetersNorthPathOptions: PathOptions = { color: 'gray', fillOpacity: 0.2, dashArray: '2', weight: 1 };
 
 function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSelectedPlant}: EditorMapProps) {
   const whenCreated = (map: Map) => {
@@ -42,6 +42,8 @@ function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSel
     <Polygon positions={polygons.happyLake} pathOptions={{ color: 'blue', stroke: false }} renderer={fullRenderer} pmIgnore={true} />
     <Polygon positions={polygons.d116} pathOptions={{ color: 'black', stroke: false, fillOpacity: 0.5 }} renderer={fullRenderer} pmIgnore={true} />
     <Polygon positions={polygons.gartempe} pathOptions={{ color: 'blue', stroke: false, fillOpacity: 0.5 }} renderer={fullRenderer} pmIgnore={true} />
+    <Polygon positions={polygons.path} pathOptions={{ color: 'black', stroke: false, fillOpacity: 0.2 }} renderer={fullRenderer} pmIgnore={true} />
+    <Polyline positions={polygons.twoMetersNorth} pathOptions={twoMetersNorthPathOptions} renderer={fullRenderer} pmIgnore={true} />
     {plants.map(plant => (
       <PlantMarker key={plant.code} 
         plant={plant} 

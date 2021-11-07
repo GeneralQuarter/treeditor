@@ -89,6 +89,7 @@ export default function PlantMarker({ plant, onPositionChange, onLockChange, onC
         <Tooltip direction="center" interactive={false} permanent={true} className="plant-label">
           <div className="code">{plant.code}</div>
           <div className="height">{plant.height}</div>
+          <div className="plant-center"></div>
           <HeightTriangle height="40" width="40" className="triangle" />
         </Tooltip>
       }
