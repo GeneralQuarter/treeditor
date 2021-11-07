@@ -67,13 +67,13 @@ export default function PlantMarker({ plant, onPositionChange, onLockChange, onC
       return;
     }
 
-    const isAFI = plant.tags.includes('essenceAfi');
+    const isAzoteFixator = plant.tags.includes('fixateurDazote');
 
     if (locked) {
       setTimeout(() => {
         circle.pm.disableLayerDrag();
       }, 0)
-      circle.setStyle({fillColor: isAFI ? 'green' : 'gray'});
+      circle.setStyle({fillColor: isAzoteFixator ? 'green' : 'gray'});
     } else {
       circle.pm.enableLayerDrag();
       circle.setStyle({fillColor: 'blue'});
