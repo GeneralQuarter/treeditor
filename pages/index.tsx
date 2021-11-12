@@ -1,12 +1,17 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { EditorMapProps } from '@treeditor/components/editor-map.props';
 import PlantPopup from '@treeditor/components/plant-popup';
-import PlantSearch from '@treeditor/components/plant-search';
+import Search from '@treeditor/components/search';
 import { getPlantsWithPosition } from '@treeditor/lib/contentful/get-plants-with-position';
+import { getRectanglesWithCoords } from '@treeditor/lib/contentful/get-rectangles-with-coords';
+import { generateRectangle } from '@treeditor/lib/leaflet/generate-rectangle';
 import { useUpdatePlantMutation } from '@treeditor/lib/plants/mutations/update-plant-position.mutation';
 import { plantsWithPositionQueryKey, usePlantsWithPositionQuery } from '@treeditor/lib/plants/queries/plants-with-position.query';
+import { useUpdateRectangleCoordsMutation } from '@treeditor/lib/rectangles/mutations/update-rectangle-coords.mutation';
+import { rectanglesWithCoordsQueryKey, useRectanglesWithCoordsQuery } from '@treeditor/lib/rectangles/queries/rectangles-with-coords.query';
 import { PaginatedResult } from '@treeditor/models/paginated-result';
 import { Plant } from '@treeditor/models/plant';
+import { Rectangle } from '@treeditor/models/rectangle';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
@@ -15,9 +20,11 @@ import { dehydrate } from 'react-query/hydration'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const paginatedPlants = await getPlantsWithPosition();
+  const paginatedRectangles = await getRectanglesWithCoords();
   const queryClient = new QueryClient()
 
   queryClient.setQueryData<PaginatedResult<Plant>>(plantsWithPositionQueryKey, paginatedPlants);
+  queryClient.setQueryData<PaginatedResult<Rectangle>>(rectanglesWithCoordsQueryKey, paginatedRectangles);
 
   return {
     props: {
@@ -27,8 +34,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 }
 
 function Home() {
-  const { isLoading, error, data } = usePlantsWithPositionQuery();
+  const { isLoading: isLoadingPlants, error: errorPlants, data: dataPlants } = usePlantsWithPositionQuery();
+  const { isLoading: isLoadingRectangles, error: errorRectangles, data: dataRectangles } = useRectanglesWithCoordsQuery();
   const updatePlantPositionMutation = useUpdatePlantMutation();
+  const updateRectangleCoordsMutation = useUpdateRectangleCoordsMutation();
   const [map, setMap] = useState<any | null>();
   const [selectedPlant, setSelectedPlant] = useState<Plant>();
 
@@ -47,7 +56,16 @@ function Home() {
     }
   }
 
-  const plantSearchPlantClicked = async (plant: Plant) => {
+  const rectangleCoordsChanged = async (rectangle: Rectangle, newCoords: [number, number][]) => {
+    try {
+      const newRectangle = {...rectangle, coords: newCoords};
+      updateRectangleCoordsMutation.mutate(newRectangle);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const searchPlantClicked = async (plant: Plant) => {
     if (!map) {
       return;
     }
@@ -59,6 +77,21 @@ function Home() {
       const newPlant = {...plant, position: [coords.lat, coords.lng] as [number, number]};
       updatePlantPositionMutation.mutate(newPlant);
       updateSelectedPlant(newPlant);
+    }
+  }
+
+  const searchRectangleClicked = async (rectangle: Rectangle) => {
+    if (!map) {
+      return;
+    }
+
+    if (rectangle.coords) {
+      map.flyTo(rectangle.coords[0], 20);
+    } else {
+      const center = map.getCenter();
+      const coords = generateRectangle([center.lat, center.lng], rectangle.width, rectangle.length);
+      const newRectangle = {...rectangle, coords: coords};
+      updateRectangleCoordsMutation.mutate(newRectangle);
     }
   }
 
@@ -75,23 +108,30 @@ function Home() {
     setSelectedPlant(newPlant);
   }
 
-  if (isLoading) {
+  if (isLoadingPlants || isLoadingRectangles) {
     return <p>Loading ...</p>
   }
 
-  if (error) {
+  if (errorPlants || errorRectangles) {
     return <p>An error as occured :(</p>
   }
 
   return (
     <>
       <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <EditorMap plants={data.items} onPlantPositionChange={plantPositionChanged} setMap={setMap} selectedPlant={selectedPlant} setSelectedPlant={setSelectedPlant} />
+        <EditorMap plants={dataPlants.items} 
+          rectangles={dataRectangles.items} 
+          onPlantPositionChange={plantPositionChanged}
+          onRectangleCoordsChange={rectangleCoordsChanged} 
+          setMap={setMap} 
+          selectedPlant={selectedPlant} 
+          setSelectedPlant={setSelectedPlant}
+        />
         <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 500 }}>
-          <PlantSearch onPlantClicked={plantSearchPlantClicked} />
+          <Search onPlantClicked={searchPlantClicked} onRectangleClicked={searchRectangleClicked} />
         </div>
         <div style={{ position: 'absolute', bottom: 0, right: 0, zIndex: 500}}>
-          {selectedPlant && <PlantPopup plant={selectedPlant} onShowOnMapClicked={plantSearchPlantClicked}/>}
+          {selectedPlant && <PlantPopup plant={selectedPlant} onShowOnMapClicked={searchPlantClicked}/>}
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
-import { PaginatedResult } from "@treeditor/models/paginated-result";
-import { Plant } from "@treeditor/models/plant";
-import { useMutation, useQueryClient } from "react-query";
-import { plantsWithPositionQueryKey } from "../queries/plants-with-position.query";
+import { PaginatedResult } from '@treeditor/models/paginated-result';
+import { Plant } from '@treeditor/models/plant';
+import { useMutation, useQueryClient } from 'react-query';
+import { plantsWithPositionQueryKey } from '../queries/plants-with-position.query';
 
 const updatePlantPosition = ({id, position}: Plant) => fetch(`/api/plants/${id}/position`, {body: JSON.stringify(position), method: 'PUT'}).then(res => res.json());
 

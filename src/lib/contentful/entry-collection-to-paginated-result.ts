@@ -1,5 +1,5 @@
-import { PaginatedResult } from "@treeditor/models/paginated-result";
-import { Entry, EntryCollection } from "contentful";
+import { PaginatedResult } from '@treeditor/models/paginated-result';
+import { Entry, EntryCollection } from 'contentful';
 
 export function entryCollectionToPaginatedResult<TF, TR>(collection: EntryCollection<TF>, entryToItem: (e: Entry<TF>) => TR): PaginatedResult<TR> {
   return {

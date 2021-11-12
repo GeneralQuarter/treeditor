@@ -78,15 +78,15 @@ export default function PlantMarker({ plant, onPositionChange, onLockChange, onC
       circle.pm.enableLayerDrag();
       circle.setStyle({fillColor: 'blue'});
     }
-  }, [circleRef, locked])
+  }, [circleRef, locked, plant.tags])
   
   return (
     <Circle center={plant.position} 
-            radius={plant.width / 2}
-            ref={circleRef}
-            eventHandlers={eventHandlers}
-            pathOptions={{color: selected ? 'blue' : 'gray'}} 
-            weight={1}>
+      radius={plant.width / 2}
+      ref={circleRef}
+      eventHandlers={eventHandlers}
+      pathOptions={{color: selected ? 'blue' : 'gray'}} 
+      weight={1}>
       {showLabel && 
         <Tooltip direction="center" interactive={false} permanent={true} className="plant-label">
           <div className="code">{plant.code}</div>

@@ -7,7 +7,7 @@ export interface Plant {
   commonName: string;
   width: number;
   height: number;
-  position: [number, number]; // lat, lon
+  position?: [lat: number, lon: number];
   sourceLinks: string[];
   tags: string[];
 }

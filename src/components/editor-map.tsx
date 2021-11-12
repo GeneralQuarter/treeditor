@@ -5,8 +5,10 @@ import { polygons } from '@treeditor/data/polygons';
 import PlantMarker from './plant-marker';
 import { addSmoothWheelZoom } from '@treeditor/lib/leaflet/add-smooth-wheel-zoom';
 import { EditorMapProps } from './editor-map.props';
+import RectangleMarker from './rectangle-marker';
 
 import '@geoman-io/leaflet-geoman-free';
+
 
 const initialCenter: LatLngTuple = [46.37926, 0.88279];
 const fullRenderer = new SVG({ padding: 1 });
@@ -15,7 +17,7 @@ const terrainPathOptions: PathOptions = { color: 'green', fillOpacity: 0.4, dash
 const twoMetersNorthPathOptions: PathOptions = { color: 'gray', fillOpacity: 0.2, dashArray: '2', weight: 1 };
 const highTensionLinePathOptions: PathOptions = { color: 'blue', opacity: 0.3, weight: 1 };
 
-function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSelectedPlant}: EditorMapProps) {
+function EditorMap({plants, onPlantPositionChange, rectangles, onRectangleCoordsChange, setMap, selectedPlant, setSelectedPlant}: EditorMapProps) {
   const whenCreated = (map: Map) => {
     addSmoothWheelZoom(map);
     setMap?.(map);
@@ -48,6 +50,12 @@ function EditorMap({plants, onPlantPositionChange, setMap, selectedPlant, setSel
     <Polyline positions={polygons.highTensionLine1} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
     <Polyline positions={polygons.highTensionLine2} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
     <Polyline positions={polygons.highTensionLine3} pathOptions={highTensionLinePathOptions} renderer={fullRenderer} pmIgnore={true} />
+    {rectangles.map(rectangle => (
+      <RectangleMarker key={rectangle.id}
+        rectangle={rectangle}
+        onCoordsChange={newCoords => onRectangleCoordsChange(rectangle, newCoords)}
+      />
+    ))}
     {plants.map(plant => (
       <PlantMarker key={plant.code} 
         plant={plant} 

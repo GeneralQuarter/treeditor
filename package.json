@@ -12,16 +12,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.6.1",
+    "@emotion/cache": "^11.5.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
     "@geoman-io/leaflet-geoman-free": "^2.11.3",
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.60",
+    "@mui/icons-material": "^5.1.0",
+    "@mui/material": "^5.1.0",
+    "@mui/styles": "^5.1.0",
     "contentful": "^9.1.4",
-    "contentful-management": "^7.45.0",
+    "contentful-management": "^7.45.2",
     "leaflet": "^1.7.1",
     "next": "^12.0.3",
     "node-sass": "^6.0.1",
@@ -33,6 +38,8 @@
   "devDependencies": {
     "@types/leaflet": "^1.7.5",
     "@types/react": "^17.0.34",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.3",
     "typescript": "^4.4.4"
   }
 }

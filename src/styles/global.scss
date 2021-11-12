@@ -46,4 +46,21 @@
       top: -34px;
     }
   }
+
+  &.rectangle-label {
+    min-width: 100px;
+    font-family: Roboto, Arial, sans-serif;
+    line-height: 1;
+    white-space: normal;
+    text-align: center;
+
+    .label {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .dimensions {
+      font-size: 14px;
+    }
+  }
 }

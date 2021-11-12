@@ -1,18 +1,21 @@
 import { UserProvider } from '@auth0/nextjs-auth0';
-import { CssBaseline } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/styles';
 import Head from 'next/head';
-import { useEffect, useRef } from 'react';
-import theme from '@treeditor/theme';
+import { useRef } from 'react';
+import theme from '@treeditor/styles/theme';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Hydrate } from 'react-query/hydration'
+import { Hydrate } from 'react-query/hydration';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider } from '@emotion/react';
+import createEmotionCache from '@treeditor/styles/create-emotion-cache';
 
 import 'leaflet/dist/leaflet.css';
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css';
-import '@treeditor/global.scss';
+import '@treeditor/styles/global.scss';
 
+const clientSideEmotionCache = createEmotionCache();
 
-function TreeditorApp({ Component, pageProps }) {
+function TreeditorApp({ Component, emotionCache = clientSideEmotionCache, pageProps }) {
   const { user } = pageProps;
 
   const queryClientRef = useRef<QueryClient>()
@@ -21,17 +24,8 @@ function TreeditorApp({ Component, pageProps }) {
     queryClientRef.current = new QueryClient();
   }
 
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
-
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         <title>Treeditor</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -46,7 +40,7 @@ function TreeditorApp({ Component, pageProps }) {
           </QueryClientProvider>
         </UserProvider>
       </ThemeProvider>
-    </>
+    </CacheProvider>
   );
 }
 

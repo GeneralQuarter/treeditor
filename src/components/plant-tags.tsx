@@ -1,31 +1,23 @@
-import Chip from "@material-ui/core/Chip";
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginBlock: theme.spacing(1),
-    '& > *': {
-      marginRight: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-    },
-    textTransform: 'capitalize',
-    maxWidth: '400px'
-  },
-}));
+import { Stack } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import { styled } from '@mui/styles';
 
 interface PlantTagsProps {
   tags: string[];
 }
 
+const Container = styled(Stack)({
+  maxWidth: '400px',
+  flexWrap: 'wrap',
+  textTransform: 'capitalize'
+});
+
 function PlantTags({ tags }: PlantTagsProps) {
-  const classes = useStyles();
-  return <div className={classes.root} >
+  return <Container direction="row">
     {tags.map(tag => (
-      <Chip key={tag} size="small" label={tag.split('-').join(' ')} />
+      <Chip key={tag} size="small" sx={{ mr: 1, mt: 1 }} label={tag.split('-').join(' ')} />
     ))}
-  </div>;
+  </Container>;
 }
 
 export default PlantTags;

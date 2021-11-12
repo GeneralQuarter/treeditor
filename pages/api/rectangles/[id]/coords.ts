@@ -1,8 +1,8 @@
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
-import { updatePlantPosition } from '@treeditor/lib/contentful/update-plant-position';
+import { updateRectangleCoords } from '@treeditor/lib/contentful/update-rectangle-coords';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-async function patchPlantPosition(req: NextApiRequest, res: NextApiResponse) {
+async function patchRectangleCoords(req: NextApiRequest, res: NextApiResponse) {
   const idQueryParam = req.query.id;
   const id = Array.isArray(idQueryParam) ? idQueryParam[0] : idQueryParam;
 
@@ -12,7 +12,7 @@ async function patchPlantPosition(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const result = await updatePlantPosition(id, JSON.parse(req.body));
+    const result = await updateRectangleCoords(id, JSON.parse(req.body));
     res.status(200).json(result);
   } catch (e) {
     console.log(e);
@@ -23,7 +23,7 @@ async function patchPlantPosition(req: NextApiRequest, res: NextApiResponse) {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
   case 'PUT':
-    return patchPlantPosition(req, res);
+    return patchRectangleCoords(req, res);
   default:
     res.status(404).end();
   }

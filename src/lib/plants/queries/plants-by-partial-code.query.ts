@@ -1,6 +1,6 @@
-import { PaginatedResult } from "@treeditor/models/paginated-result";
-import { Plant } from "@treeditor/models/plant";
-import { useQuery } from "react-query";
+import { PaginatedResult } from '@treeditor/models/paginated-result';
+import { Plant } from '@treeditor/models/plant';
+import { useQuery } from 'react-query';
 
 const plantsByPartialCode = async (partialCode: string): Promise<PaginatedResult<Plant>> => {
   if (!partialCode) {

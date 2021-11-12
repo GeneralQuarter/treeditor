@@ -1,4 +1,4 @@
-import { createClient } from "contentful-management";
+import { createClient } from 'contentful-management';
 
 const client = createClient({
   accessToken: process.env.CTF_CMT,

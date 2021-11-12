@@ -1,7 +1,7 @@
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { getPlantsWithPosition } from "@treeditor/lib/contentful/get-plants-with-position";
-import { getPlantsByPartialCode } from "@treeditor/lib/contentful/get-plants-by-partial-code";
-import { NextApiRequest, NextApiResponse } from "next";
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { getPlantsWithPosition } from '@treeditor/lib/contentful/get-plants-with-position';
+import { getPlantsByPartialCode } from '@treeditor/lib/contentful/get-plants-by-partial-code';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 async function getAllWithPosition(res: NextApiResponse) {
   try {
@@ -44,10 +44,10 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
-    case 'GET':
-      return get(req, res);
-    default:
-      res.status(404).end();
+  case 'GET':
+    return get(req, res);
+  default:
+    res.status(404).end();
   }
 }
 

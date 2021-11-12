@@ -3,10 +3,12 @@ import { entryCollectionToPaginatedResult } from './entry-collection-to-paginate
 import { PlantFields } from './plant-entry';
 import { entryToPlant } from './entry-to-plant';
 
-export function getPlantsWithPosition() {
-  return client.getEntries<PlantFields>({
+export async function getPlantsWithPosition() {
+  const collection = await client.getEntries<PlantFields>({
     content_type: 'plant',
     limit: 1000,
     'fields.position[exists]': true,
-  }).then(collection => entryCollectionToPaginatedResult(collection, entryToPlant))
+  });
+  
+  return entryCollectionToPaginatedResult(collection, entryToPlant);
 }

@@ -1,6 +1,6 @@
-import { PaginatedResult } from "@treeditor/models/paginated-result";
-import { Plant } from "@treeditor/models/plant";
-import { useQuery } from "react-query";
+import { PaginatedResult } from '@treeditor/models/paginated-result';
+import { Plant } from '@treeditor/models/plant';
+import { useQuery } from 'react-query';
 
 const fetchPlantsWithPosition = () => fetch('/api/plants?has-position=true').then(res => res.json());
 

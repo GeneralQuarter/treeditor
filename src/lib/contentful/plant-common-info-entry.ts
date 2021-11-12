@@ -1,4 +1,4 @@
-import { Entry, EntryFields } from "contentful";
+import { Entry, EntryFields } from 'contentful';
 
 export interface PlantCommonInfoFields {
   genus: EntryFields.Symbol;

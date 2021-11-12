@@ -1,5 +1,5 @@
-import { Plant } from "@treeditor/models/plant";
-import { PlantEntry } from "./plant-entry";
+import { Plant } from '@treeditor/models/plant';
+import { PlantEntry } from './plant-entry';
 
 export function entryToPlant(entry: PlantEntry): Plant {
   return {
@@ -15,7 +15,7 @@ export function entryToPlant(entry: PlantEntry): Plant {
       entry.fields.position.lat,
       entry.fields.position.lon
     ] : undefined,
-    sourceLinks: entry.fields.commonInfo.fields.sourceLinks,
+    sourceLinks: entry.fields.commonInfo.fields.sourceLinks ?? [],
     tags: entry.metadata.tags.map(l => l.sys.id).concat(entry.fields.commonInfo.metadata.tags.map(t => t.sys.id))
   }
 }

@@ -1,4 +1,4 @@
-import { createClient } from "contentful";
+import { createClient } from 'contentful';
 
 const client = createClient({
   accessToken: process.env.CTF_CDA,

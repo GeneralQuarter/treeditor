@@ -1,4 +1,4 @@
-import client from "./management-client";
+import client from './management-client';
 
 export async function updatePlantPosition(id: string, position: [number, number]) {
   const entry = await client.entry.get({entryId: id});
